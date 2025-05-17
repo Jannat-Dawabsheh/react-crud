@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../components/loader/Loader';
+import { Slide, toast } from 'react-toastify';
 
 export default function Edit() {
     const {userId}=useParams();
@@ -36,8 +37,27 @@ export default function Edit() {
       },[])
 
     const EditForm= async (value)=>{
+      try{
      const {data} =await axios.put(`${import.meta.env.VITE_BURL}/users/${userId}`,{userName:value.userName});
+     toast.success('User Edited successfully', {
+      position: "top-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Slide,
+      });
      navigate('/');
+    }
+    catch(e){
+        if(e.status==404){
+        setError("Page not found");
+        console.log("Page not found");
+      }
+    }
      
     }
    if(loading){

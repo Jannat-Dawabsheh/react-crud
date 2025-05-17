@@ -11,6 +11,7 @@ export default function Create() {
     const[error,setError]=useState("");
     const[loading,setLoading]=useState(true);
   const RegisterForm= async (data)=>{
+    try{
    const response=await axios.post(`${import.meta.env.VITE_BURL}/users`,data);
    toast.success('User added successfully', {
     position: "top-right",
@@ -24,6 +25,13 @@ export default function Create() {
     transition: Slide,
     });
    navigate('/');
+  }
+  catch(e){
+     if(e.status==404){
+        setError("Page not found");
+        console.log("Page not found");
+      }
+  }
   }
 
   return (
